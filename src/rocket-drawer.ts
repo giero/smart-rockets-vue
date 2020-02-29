@@ -1,5 +1,6 @@
 import p5 from 'p5';
 import Rocket from '@/rocket';
+import RocketPopulation from '@/rocket-population';
 
 export default class RocketDrawer {
   sketch: p5;
@@ -9,13 +10,19 @@ export default class RocketDrawer {
   }
 
   draw(rocket: Rocket) {
-    const { sketch } = this;
+    const { sketch: s } = this;
 
-    sketch.push();
-    sketch.translate(rocket.position.x, rocket.position.y);
-    sketch.rotate(rocket.velocity.heading());
-    sketch.rectMode(sketch.CENTER);
-    sketch.rect(0, 0, 50, 10);
-    sketch.pop();
+    s.push();
+    s.noStroke();
+    s.fill(255, 150);
+    s.translate(rocket.position.x, rocket.position.y);
+    s.rotate(rocket.velocity.heading());
+    s.rectMode(s.CENTER);
+    s.rect(0, 0, 25, 5);
+    s.pop();
+  }
+
+  drawPopulation(population: RocketPopulation) {
+    population.rockets.forEach((rocket) => this.draw(rocket));
   }
 }
