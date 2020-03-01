@@ -1,17 +1,11 @@
 import Rocket from '@/rocket';
+import Obstacles from '@/obstacles';
 
 // TODO: move to separate file
 interface Target {
   x: number;
   y: number;
   size: number;
-}
-
-interface Obstacle {
-  rx: number;
-  ry: number;
-  rw: number;
-  rh: number;
 }
 
 export default class RocketPopulation {
@@ -42,9 +36,9 @@ export default class RocketPopulation {
     this.size = this.rockets.length;
   }
 
-  update(target: Target, obstacle: Obstacle): void {
+  update(target: Target, obstacles: Obstacles): void {
     for (let i = 0; i < this.size; ++i) {
-      this.rockets[i].update(target, obstacle);
+      this.rockets[i].update(target, obstacles);
     }
   }
 

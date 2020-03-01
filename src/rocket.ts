@@ -1,18 +1,12 @@
 import p5, { Vector } from 'p5';
 import MoveDNA from '@/move-dna';
+import Obstacles from '@/obstacles';
 
 // TODO: move to separate file
 interface Target {
   x: number;
   y: number;
   size: number;
-}
-
-interface Obstacle {
-  rx: number;
-  ry: number;
-  rw: number;
-  rh: number;
 }
 
 export default class Rocket {
@@ -44,7 +38,7 @@ export default class Rocket {
     this.acceleration.add(force);
   }
 
-  update(target: Target, obstacle: Obstacle): void {
+  update(target: Target, obstacles: Obstacles): void {
     if (this.crashed || this.completed || !this.moves.valid()) {
       return;
     }
@@ -68,9 +62,6 @@ export default class Rocket {
       || this.position.x > 600
       || this.position.y < 0
       || this.position.y > 600
-      || (this.position.x > obstacle.rx
-        && this.position.x < obstacle.rx + obstacle.rw
-        && this.position.y > obstacle.ry
-        && this.position.y < obstacle.ry + obstacle.rh);
+      || obstacles.collideAny(this.position);
   }
 }

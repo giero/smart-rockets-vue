@@ -7,6 +7,7 @@ import VueP5 from 'vue-p5';
 import GA from '@/ga';
 import RocketDrawer from '@/rocket-drawer';
 import RocketPopulation from '@/rocket-population';
+import Obstacles from '@/obstacles';
 
 export default {
   name: 'Sketch',
@@ -20,7 +21,7 @@ export default {
       rocketDrawer: null,
       rockets: null,
       target: null,
-      obstacle: null,
+      obstacles: null,
     };
   },
   methods: {
@@ -34,24 +35,46 @@ export default {
         y: 50,
         size: 16,
       };
-      this.obstacle = {
-        rx: 150,
-        ry: 300,
-        rw: 300,
-        rh: 10,
-      };
+      this.obstacles = new Obstacles([
+        {
+          rx: 50,
+          ry: 150,
+          rw: 200,
+          rh: 10,
+        },
+        {
+          rx: 350,
+          ry: 150,
+          rw: 200,
+          rh: 10,
+        },
+        {
+          rx: 150,
+          ry: 300,
+          rw: 300,
+          rh: 10,
+        },
+        {
+          rx: 350,
+          ry: 450,
+          rw: 200,
+          rh: 10,
+        },
+      ]);
       this.ga = new GA(this.target, this.rockets);
     },
     draw(sketch) {
       sketch.background(...this.color);
       sketch.ellipse(this.target.x, this.target.y, this.target.size, this.target.size);
-      sketch.rect(this.obstacle.rx, this.obstacle.ry, this.obstacle.rw, this.obstacle.rh);
+      this.obstacles.obstacles.forEach(
+        (obstacle) => sketch.rect(obstacle.rx, obstacle.ry, obstacle.rw, obstacle.rh),
+      );
 
       if (!this.rockets.canMove()) {
         this.ga.evaluate();
         this.rockets = this.ga.selection();
       }
-      this.rockets.update(this.target, this.obstacle);
+      this.rockets.update(this.target, this.obstacles);
       this.rocketDrawer.drawPopulation(this.rockets);
     },
   },
