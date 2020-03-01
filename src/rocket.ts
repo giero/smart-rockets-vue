@@ -28,6 +28,8 @@ export default class Rocket {
 
   crashed: boolean;
 
+  leader: boolean;
+
   constructor(moves?: MoveDNA) {
     this.position = p5.prototype.createVector(300, 500);
     this.velocity = p5.prototype.createVector();
@@ -35,6 +37,7 @@ export default class Rocket {
     this.moves = moves instanceof MoveDNA ? moves : new MoveDNA();
     this.completed = false;
     this.crashed = false;
+    this.leader = false;
   }
 
   applyForce(force: Vector): void {

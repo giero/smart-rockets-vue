@@ -18,6 +18,8 @@ export default class GA {
 
   rocketsFitness: Array<number>;
 
+  bestRocket: number;
+
   constructor(target: Target, population: RocketPopulation) {
     this.target = target;
     this.population = population;
@@ -30,9 +32,7 @@ export default class GA {
     let fitness = p5.prototype.map(d, 0, 600, 600, 0);
 
     if (rocket.completed) {
-      console.log('before', rocket.moves.key(), fitness);
       fitness *= p5.prototype.map(200 / rocket.moves.key(), 1, 200, 1, 100) * 5;
-      console.log('after', fitness);
     }
 
     if (rocket.crashed) {
@@ -44,14 +44,16 @@ export default class GA {
 
   evaluate() {
     let maxFitness = 0;
+    this.bestRocket = 0;
     for (let i = 0; i < this.population.size; ++i) {
       this.rocketsFitness[i] = this.calculateFitness(this.population.rockets[i]);
       if (this.rocketsFitness[i] > maxFitness) {
         maxFitness = this.rocketsFitness[i];
+        this.bestRocket = i;
       }
     }
 
-    console.log(maxFitness);
+    console.log({ maxFitness });
 
     for (let i = 0; i < this.population.size; ++i) {
       this.rocketsFitness[i] /= maxFitness;
@@ -67,8 +69,13 @@ export default class GA {
 
   selection() {
     const newRockets = new Array<Rocket>(this.population.size);
+    const bestMoves = this.population.rockets[this.bestRocket].moves;
+    bestMoves.revind();
+    const bestRocket = new Rocket(bestMoves);
+    bestRocket.leader = true;
 
-    for (let i = 0; i < this.population.size; ++i) {
+    newRockets[0] = bestRocket;
+    for (let i = 1; i < this.population.size; ++i) {
       const parentA: Rocket = p5.prototype.random(this.matingPool);
       const parentB: Rocket = p5.prototype.random(this.matingPool);
 

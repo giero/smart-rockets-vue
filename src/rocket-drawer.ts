@@ -14,7 +14,11 @@ export default class RocketDrawer {
 
     s.push();
     s.noStroke();
-    s.fill(255, 150);
+    if (rocket.leader) {
+      s.fill(204, 102, 0);
+    } else {
+      s.fill(255, 150);
+    }
     s.translate(rocket.position.x, rocket.position.y);
     s.rotate(rocket.velocity.heading());
     s.rectMode(s.CENTER);
