@@ -25,14 +25,15 @@ export default class GA {
     this.population = population;
     this.matingPool = [];
     this.rocketsFitness = new Array<number>(population.size);
+    this.bestRocket = 0;
   }
 
   calculateFitness(rocket: Rocket): number {
     const d = p5.prototype.dist(rocket.position.x, rocket.position.y, this.target.x, this.target.y);
-    let fitness = p5.prototype.map(d, 0, 600, 600, 0);
+    let fitness = 1 / d;
 
     if (rocket.completed) {
-      fitness *= p5.prototype.map(200 / rocket.moves.key(), 1, 200, 1, 100) * 5;
+      fitness *= p5.prototype.map(800 / rocket.moves.key(), 1, 800, 1, 100) * 10;
     }
 
     if (rocket.crashed) {

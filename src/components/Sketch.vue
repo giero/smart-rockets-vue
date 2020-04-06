@@ -75,6 +75,9 @@ export default {
         this.rockets = this.ga.selection();
       }
       this.rockets.update(this.target, this.obstacles);
+      this.rockets.update(this.target, this.obstacles);
+      this.rockets.update(this.target, this.obstacles);
+      this.rockets.update(this.target, this.obstacles);
       this.rocketDrawer.drawPopulation(this.rockets);
     },
   },

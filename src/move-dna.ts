@@ -7,7 +7,7 @@ export default class MoveDNA {
 
   position: number;
 
-  readonly maxMoves = 400;
+  readonly maxMoves = 800;
 
   readonly maxForce = 0.2;
 
